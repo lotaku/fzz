@@ -42,7 +42,7 @@ class TCPServer:
 
     def handlePackets(self):
         for remote,buffers in self.buffers:
-            player=remote.player
+            player=playerManager.get(remote)
             for buffer in buffers:
                 packet=RecvPacket(buffer)
                 handlePacket(player,packet)
@@ -51,9 +51,8 @@ class TCPServer:
     def acceptConnection(self):
         remote,address=self.listenSocket.accept()
         player=Player(remote)
+        player.sendData=""
         playerManager.add(player)
-        remote.player=player
-        remote.sendPackets=[]
         self.remoteSockets.append(remote)
 
     def readRemoteData(self,readSocket): 
@@ -82,9 +81,10 @@ class TCPServer:
         self.remoteData[readSocket]=data
 
     def writeRemote(self,writeSocket):
-        data=writeSocket.sendData
-        amount=writeSocket.write(data)
-        writeSocket.sendData=data[amount:]
+        player=playerManager.get(writeSocket)
+        data=player.sendData
+        amount=writeSocket.send(data)
+        player.sendData=data[amount:]
 
 
 #import ptrace; ptrace.traceModule()

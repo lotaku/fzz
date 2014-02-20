@@ -16,6 +16,7 @@ class TCPClient:
 
         self.sendData=""
         self.recvData=""
+        self.buffers=[]
 
     def recvPackets(self):
         reads,_,errors=select([self.connectSocket],[],[],0.0001)

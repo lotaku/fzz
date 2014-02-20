@@ -25,4 +25,4 @@ class Client:
         pass
 
 client=Client()
-client.mainLoop()
+client.loop()

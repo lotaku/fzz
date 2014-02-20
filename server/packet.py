@@ -32,9 +32,8 @@ class SendPacket:
         self.buffer+=text
 
     def send(self,player):
-        remote=player.socket
         length=len(self.buffer)
         buffer=chr(length/0x100)+chr(length%0x100)+self.buffer
-        remote.sendData+=buffer
+        player.sendData+=buffer
 
 import ptrace; ptrace.traceModule()

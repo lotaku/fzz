@@ -2,13 +2,16 @@
 
 class PlayerManager:
 
+    def __init__(self):
+        self.socketPlayer={}
+
     def add(self,player):
-        pass
+        self.socketPlayer[player.socket]=player
 
     def remove(self,player):
-        pass
+        del self.socketPlayer[player.socket]
 
-    def get(self,playerName):
-        pass
+    def get(self,socket):
+        return self.socketPlayer[socket]
 
 playerManager=PlayerManager()
