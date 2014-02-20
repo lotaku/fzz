@@ -1,6 +1,9 @@
 #encoding: utf8 
 
-from tcpclient import TCPClient
+import sys
+sys.path.append("../common")
+
+from tcp_client import TCPClient
 
 class Client:
 

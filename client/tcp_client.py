@@ -10,8 +10,8 @@ from opccode import handlePacket
 class TCPClient:
 
     def __init__(self,host="localhost",port=8888):
-        self.connectSocketect=socket(AF_INET,SOCK_STREAM)
-        self.connectSocketect.connect((host,port))
+        self.connectSocket=socket(AF_INET,SOCK_STREAM)
+        self.connectSocket.connect((host,port))
         self.connectSocket.setblocking(0)
 
         self.sendData=""

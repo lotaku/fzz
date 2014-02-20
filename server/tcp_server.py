@@ -3,6 +3,7 @@
 from select import select
 from socket import socket
 from socket import AF_INET,SOCK_STREAM
+from socket import SOL_SOCKET,SO_REUSEADDR
 
 from packet import RecvPacket
 
@@ -14,6 +15,7 @@ class TCPServer:
 
     def __init__(self,host="localhost",port=8888):
         self.listenSocket=socket(AF_INET,SOCK_STREAM)
+        self.listenSocket.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
         self.listenSocket.setblocking(0)
 
         self.remoteSockets=[]

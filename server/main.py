@@ -3,7 +3,7 @@
 import sys
 sys.path.append("../common")
 
-from server import TCPServer
+from tcp_server import TCPServer
 
 tcpServer=TCPServer()
 tcpServer.listen()
