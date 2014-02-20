@@ -8,9 +8,7 @@ import traceback
 tab="  "
 callLevel=-1
 
-def log(logName,msg):
-    print msg
-
+def log(logName,msg): print msg 
 def objectName(obj):
     name=repr(obj)
     if (hasattr(obj,"__class__") and
@@ -97,6 +95,5 @@ def traceFunction(function,logName=None):
     return newFunction
 
 trace=traceFunction
-
-
-
+builtin=__builtins__
+builtin["trace"]=trace

@@ -1,5 +1,6 @@
 #encoding: utf8
 
+
 import player
 
 handler={
@@ -7,6 +8,6 @@ handler={
     2:player.gs2cPlayerMove, 
 }
 
-def handlePacket(player,packet):
-    handler[packet.id](player,packet)
+def handlePacket(packet):
+    handler[packet.id](player.player,packet)
 

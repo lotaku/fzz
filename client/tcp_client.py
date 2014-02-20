@@ -3,20 +3,20 @@
 from select import select
 from socket import socket
 from socket import AF_INET,SOCK_STREAM
-from packet import RecvPacket
-from player import player
+from recv_packet import RecvPacket
 from opccode import handlePacket
 
-class TCPClient:
+class TcpClient:
 
     def __init__(self,host="localhost",port=8888):
         self.connectSocket=socket(AF_INET,SOCK_STREAM)
-        self.connectSocket.connect((host,port))
-        self.connectSocket.setblocking(0)
-
         self.sendData=""
         self.recvData=""
         self.buffers=[]
+
+    def connect(self,host="localhost",port=8888):
+        self.connectSocket.connect((host,port))
+        self.connectSocket.setblocking(0)
 
     def recvPackets(self):
         reads,_,errors=select([self.connectSocket],[],[],0.0001)
@@ -31,7 +31,7 @@ class TCPClient:
     def handlePackets(self):
         for buffer in self.buffers:
             packet=RecvPacket(buffer)
-            handlePacket(player,packet)
+            handlePacket(packet)
         self.buffers=[]
 
     def read(self):
@@ -63,4 +63,5 @@ class TCPClient:
         amount=self.connectSocket.send(data)
         self.sendData=data[amount:]
 
+tcpClient=TcpClient()
 

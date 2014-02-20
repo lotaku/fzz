@@ -1,6 +1,6 @@
-#encoding: utf8
+#encoding: utf8 
 
-from packet import SendPacket
+import send_packet 
 
 class Player:
 
@@ -17,16 +17,16 @@ class Player:
         self.y=y
 
     def move(self,x,y):
-        self.x=x
+        self.x=x 
         self.y=y
 
     def c2gsEnterWorld(self):
-        packet=SendPacket(1)
+        packet=send_packet.SendPacket(1)
         packet.packString(self.name)
         packet.send()
 
     def c2gsPlayerMove(self,x,y):
-        packet=SendPacket(2)
+        packet=send_packet.SendPacket(2)
         packet.packInt(x,1)
         packet.packInt(y,1)
         packet.send()
@@ -43,3 +43,4 @@ def gs2cPlayerMove(player,packet):
     y=packet.unpackInt(1)
     player.move(x,y)
 
+import ptrace; ptrace.traceModule()

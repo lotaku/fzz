@@ -1,7 +1,7 @@
 #encoding: utf8 
 
 class RecvPacket: 
-    
+
     def __init__(self,buffer):
         self.id=ord(buffer[0])
         self.buffer=buffer
@@ -18,20 +18,5 @@ class RecvPacket:
         string=self.buffer[self.currentIndex:self.currentIndex+length]
         self.currentIndex+=length
         return string
-
-class SendPacket:
-
-    def __init__(self): 
-        self.buffer=""
-
-    def packInt(self,value):
-        self.buffer+=chr(value/0x100)+chr(value%0x100)
-
-    def packString(self,text):
-        self.packInt(len(text))
-        self.buffer+=text
-
-    def send(self):
-        player.sendData+=buffer
 
 import ptrace; ptrace.traceModule()

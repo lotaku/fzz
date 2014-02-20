@@ -17,8 +17,8 @@ class Player:
 
     def gs2cEnterWorld(self):
         packet=SendPacket(1)
-        packet.packInt(self.x,1)
-        packet.packInt(self.y,1)
+        packet.packInt(self.x)
+        packet.packInt(self.y)
         packet.send(self)
 
     def move(self,newX,newY):
@@ -28,17 +28,18 @@ class Player:
 
     def gs2cPlayerMove(self):
         packet=SendPacket(1)
-        packet.packInt(self.x,1)
-        packet.packInt(self.y,1)
+        packet.packInt(self.x)
+        packet.packInt(self.y)
         packet.send(self) #TODO 
 
 def c2gsEnterWorld(player,packet):
-    name=packet.unpackStr()
+    name=packet.unpackString()
     player.create(name)
     player.enterWorld()
 
 def c2gsPlayerMove(player,packet):
-    x=packet.unpackInt(1)
-    y=packet.unpackInt(1)
+    x=packet.unpackInt()
+    y=packet.unpackInt()
     player.move(x,y)
 
+import ptrace; ptrace.traceModule()

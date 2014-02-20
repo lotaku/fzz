@@ -3,8 +3,7 @@
 from select import select
 from socket import socket
 from socket import AF_INET,SOCK_STREAM
-from socket import SOL_SOCKET,SO_REUSEADDR
-
+from socket import SOL_SOCKET,SO_REUSEADDR 
 from packet import RecvPacket
 
 from opccode import handlePacket
@@ -26,6 +25,7 @@ class TCPServer:
         self.listenSocket.bind(("localhost",8888))
         self.listenSocket.listen(11)
 
+    @trace
     def run(self): 
         while True:
             reads,writes,errors=select([self.listenSocket]+self.remoteSockets,self.remoteSockets,[],0.0001)
@@ -41,13 +41,16 @@ class TCPServer:
                 self.writeRemote(write)
 
     def handlePackets(self):
-        for remote,buffers in self.buffers:
+        #if self.buffers:
+        #    import pdb; pdb.set_trace()
+        for remote,buffers in self.buffers.items():
             player=playerManager.get(remote)
             for buffer in buffers:
                 packet=RecvPacket(buffer)
                 handlePacket(player,packet)
-        self.buffers=[]
+        self.buffers={}
 
+    @trace
     def acceptConnection(self):
         remote,address=self.listenSocket.accept()
         player=Player(remote)
@@ -59,6 +62,10 @@ class TCPServer:
         #packet = length(2 byte) + content(length byte)
         data=self.remoteData.get(readSocket,"")+readSocket.recv(1024)
         dataLength=len(data)
+        
+        print "recv"
+        for char in data:
+            print "\t",ord(char)
 
         lengthBeginIndex=0
         contentBeginIndex=2
@@ -69,7 +76,7 @@ class TCPServer:
             while dataLength>=packetLength:
                 content=data[contentBeginIndex:contentBeginIndex+contentLength]
 
-                self.buffers.get(readSocket,[]).append(content)
+                self.buffers.setdefault(readSocket,[]).append(content)
 
                 data=data[contentBeginIndex+contentLength:]
                 dataLength=len(data)
@@ -79,6 +86,8 @@ class TCPServer:
                 else:
                     break
         self.remoteData[readSocket]=data
+
+        print self.buffers
 
     def writeRemote(self,writeSocket):
         player=playerManager.get(writeSocket)

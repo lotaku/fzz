@@ -3,20 +3,24 @@
 import sys
 sys.path.append("../common")
 
-from tcp_client import TCPClient
+from tcp_client import tcpClient
+from player import player
 
 class Client:
 
     def __init__(self):
-        self.net=TCPClient()
+        tcpClient.connect()
+        player.create("fzz")
+        player.c2gsEnterWorld()
+        player.c2gsEnterWorld()
 
     def loop(self):
         while True:
-            self.net.recvPackets()
-            self.net.handlePackets()
+            tcpClient.recvPackets()
+            tcpClient.handlePackets()
             self.handleEvents() 
             self.render()
-            self.net.sendPackets()
+            tcpClient.sendPackets()
 
     def handleEvents(self):
         pass
