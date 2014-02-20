@@ -1,6 +1,6 @@
+#encoding: utf8
 
-
-import os
+#import os
 import sys
 import types
 import traceback
@@ -21,8 +21,8 @@ def objectName(obj):
     return name
 
 def functionName(func):
-    module="%s."%func.__module__ if hasattr(func,"__module__") else ""
-    class_="%s."%func.im_class.__name__ if hasattr(func,"im_class") else ""
+    module="%s"%func.__module__ if hasattr(func,"__module__") else ""
+    class_="%s"%func.im_class.__name__ if hasattr(func,"im_class") else ""
     if class_:
         return "%s.%s"%(class_,func.__name__)
     else:
@@ -38,16 +38,16 @@ def traceModule(module=None):
 
     moduleName=module["__name__"]
     logName="%s_trace"%moduleName.split(".")[0]
-    print "trace module",moduleName
+    print "module",moduleName
 
     for key,value in module.items():
         if key[0]=="_": continue
         if hasattr(value,"__module__") and value.__module__==moduleName:
             if type(value) is types.FunctionType:
                 print "\tfunction",key
-            elif type(value) is type.ClassType:
+            elif type(value) is types.ClassType:
                 traceClass(value,logName)
-            elif type(value) is type.TypeType:
+            elif type(value) is types.TypeType:
                 traceClass(value,logName)
 
 def traceClass(class_,logName):
@@ -74,7 +74,7 @@ def traceFunction(function,logName=None):
         prefix=tab*callLevel
         argString=",".join(map(objectName,args))
         kwString=",".join("%s:%s"%(key,objectName(value)) for key,value in kw.items())
-        callString="%s%s("%(prefix,functionName(functionName))
+        callString="%s%s("%(prefix,functionName(function))
         if argString: callString+=argString
         if kwString: callString+=kwString
         callString+=")"

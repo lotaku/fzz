@@ -1,10 +1,11 @@
-#encoding: utf8
+#encoding: utf8 
 
-class RecvPacket:
-
+class RecvPacket: 
+    
     def __init__(self,buffer):
+        self.id=ord(buffer[0])
         self.buffer=buffer
-        self.currentIndex=0
+        self.currentIndex=1
 
     def unpackInt(self):
         index=self.currentIndex
@@ -20,7 +21,7 @@ class RecvPacket:
 
 class SendPacket:
 
-    def __init__(self):
+    def __init__(self): 
         self.buffer=""
 
     def packInt(self,value):
@@ -30,16 +31,10 @@ class SendPacket:
         self.packInt(len(text))
         self.buffer+=text
 
-x=SendPacket()
-x.packInt(100)
-x.packInt(12120)
-x.packString("cjt")
-x.packInt(65535)
-x.packString("caijietao")
+    def send(self,player):
+        remote=player.socket
+        length=len(self.buffer)
+        buffer=chr(length/0x100)+chr(length%0x100)+self.buffer
+        remote.sendData+=buffer
 
-y=RecvPacket(x.buffer)
-print y.unpackInt()
-print y.unpackInt()
-print y.unpackString()
-print y.unpackInt()
-print y.unpackString()
+import ptrace; ptrace.traceModule()
